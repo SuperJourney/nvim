@@ -18,3 +18,6 @@ local coding = require("plugins.coding")
 require("lazy").setup({coding,lsp})
 
 require("plugins.lsp.keymaps")
+
+
+

@@ -6,6 +6,7 @@
 
 ## Install
 
+下载配置
 
 ```bash
 git clone https://github.com/SuperJourney/nvim.git ~/.config/nvim
@@ -20,10 +21,21 @@ git clone https://github.com/SuperJourney/nvim.git ~/.config/nvim
 brew install fd
 ```
 
+### 开启lsp
+
+
+
 ### UnInstall
 
-## Plugins
+```
+rm -rf ~/.config/nvim
+rm -rf ~/.local/share/nvim
+rm -rf ~/.local/state/nvim
+rm -rf ~/.cache/nvim
+```
 
+
+## Plugins
 
 ## Keyboard
 
@@ -39,15 +51,15 @@ brew install fd
 
 ### kylechui/nvim-surround
 
-| Old Text                                           | Command              | New Text                       |
-| -------------------------------------------------- | -------------------- | ------------------------------ |
-| `surr*ound_words`                                | `ysiw)`            | `(surround_words)`           |
-| `*make strings`                                  | `ys$"`             | `"make strings"`             |
-| `[delete ar*ound me!]`                           | `ds]`              | `delete around me!`          |
-| `remove`<b>```````HTML t*ags `````</b>```````` | `dst`              | `remove HTML tags`           |
-| `'change quot*es'`                               | `cs'"`             | `"change quotes"`            |
-| `<b>`or tag* types `</b>`                      | `csth1`<CR>``````` | `<h1>`or tag types `</h1>` |
-| `delete(functi*on calls)`                        | `dsf`              | `function calls`             |
+| Old Text                                             | Command              | New Text                       |
+| ---------------------------------------------------- | -------------------- | ------------------------------ |
+| `surr*ound_words`                                  | `ysiw)`            | `(surround_words)`           |
+| `*make strings`                                    | `ys$"`             | `"make strings"`             |
+| `[delete ar*ound me!]`                             | `ds]`              | `delete around me!`          |
+| `remove<b>````````HTML t*ags ``````</b>````````` | `dst`              | `remove HTML tags`           |
+| `'change quot*es'`                                 | `cs'"`             | `"change quotes"`            |
+| `<b>`or tag* types `</b>`                        | `csth1<CR>```````` | `<h1>`or tag types `</h1>` |
+| `delete(functi*on calls)`                          | `dsf`              | `function calls`             |
 
 ### ibhagwan/fzf-lua
 

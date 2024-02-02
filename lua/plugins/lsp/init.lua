@@ -5,7 +5,8 @@ return { --
     "hrsh7th/nvim-cmp",
 
     event = "InsertEnter",
-    dependencies = {"neovim/nvim-lspconfig","hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path","hrsh7th/cmp-cmdline","saadparwaiz1/cmp_luasnip"},
+    dependencies = {"neovim/nvim-lspconfig", "hrsh7th/cmp-nvim-lsp", "hrsh7th/cmp-buffer", "hrsh7th/cmp-path",
+                    "hrsh7th/cmp-cmdline", "saadparwaiz1/cmp_luasnip"},
     config = function()
         -- Set up nvim-cmp.
         local cmp = require 'cmp'
@@ -32,8 +33,7 @@ return { --
             sources = cmp.config.sources({ --
             {
                 name = 'nvim_lsp'
-            }, 
-            --
+            }, --
             -- {
             --     name = 'path'
             -- }, 
@@ -76,6 +76,53 @@ return { --
             }})
         })
 
+        local has_words_before = function()
+            unpack = unpack or table.unpack
+            local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+            return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+        end
+
+        local luasnip = require("luasnip")
+        local cmp = require("cmp")
+
+        cmp.setup({
+
+            -- ... Your other configuration ...
+
+            mapping = {
+
+                -- ... Your other mappings ...
+
+                ["<Tab>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                        cmp.select_next_item()
+                        -- You could replace the expand_or_jumpable() calls with expand_or_locally_jumpable() 
+                        -- that way you will only jump inside the snippet region
+                    elseif luasnip.expand_or_jumpable() then
+                        luasnip.expand_or_jump()
+                    elseif has_words_before() then
+                        cmp.complete()
+                    else
+                        fallback()
+                    end
+                end, {"i", "s"}),
+
+                ["<S-Tab>"] = cmp.mapping(function(fallback)
+                    if cmp.visible() then
+                        cmp.select_prev_item()
+                    elseif luasnip.jumpable(-1) then
+                        luasnip.jump(-1)
+                    else
+                        fallback()
+                    end
+                end, {"i", "s"})
+
+                -- ... Your other mappings ...
+            }
+
+            -- ... Your other configuration ...
+        })
+
     end
 }, --
 {
@@ -87,8 +134,12 @@ return { --
     }, --
     config = function()
         require("luasnip.loaders.from_vscode").lazy_load()
+        require("luasnip.loaders.from_vscode").lazy_load({
+            paths = {"~/.config/nvim/snippets"}
+        })
     end
-}, {'williamboman/mason-lspconfig.nvim'}, --
+}, --
+{'williamboman/mason-lspconfig.nvim'}, --
 {
     "neovim/nvim-lspconfig",
     opts = {
@@ -96,7 +147,8 @@ return { --
     },
     config = function(_, opts)
         local capabilities = require('cmp_nvim_lsp').default_capabilities()
-        for k, v in pairs(opts.setup) do
+        local lspconfig = require('config.lspconfig')
+        for k, v in pairs(lspconfig.setup) do
             require("lspconfig")[v].setup({
                 capabilities = capabilities
             })

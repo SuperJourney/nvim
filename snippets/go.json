@@ -1,0 +1,56 @@
+{
+	"new struct": {
+		"prefix": "new struct",
+		"body": [
+			"type $1 struct {",
+			"$2",
+			"}",
+			"func New$1() *$1{",
+			"return &$1{}",
+			"}"
+		],
+		"description": "new struct"
+	},
+	"deprecate": {
+		"prefix": "deprecate",
+		"body": [
+			"// Deprecated: $0"
+		],
+		"description": "Deprecateds"
+	},
+	"withvar": {
+		"prefix": "withvar",
+		"body": [
+			"func With$1 (${1/(^.)/${1:/downcase}/} ${2:string}) Opt{",
+			"    return func(ctx context.Context, m *$3) error {",
+			"        if ${1/(^.)/${1:/downcase}/}  != \"\" {",
+			"            m.$1 = ${1/(^.)/${1:/downcase}/}",
+			"    }",
+			"    return nil",
+			"    }",
+			"}"
+		],
+		"description": "withvar"
+	},
+	"Convert to lowercase": {
+		"prefix": "tolower",
+		"body": [
+			"${1/(^.)/${1:/downcase}/}"
+		],
+		"description": "Convert selection to lowercase"
+	},
+	"gpt-swagger": {
+		"prefix": "gpt-swagger",
+		"body": [
+			"我需要通过注释生成swagger文档，根据函数完善注释"
+		],
+		"description": "gpt-swagger"
+	},
+	"mockery": {
+		"prefix": "mockery",
+		"body":[
+			"//go:generate mockery --name=$1 --outpkg=mock_$2"
+		],
+		"description" :"mockery"
+	}
+}
